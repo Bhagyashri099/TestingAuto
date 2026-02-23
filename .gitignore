@@ -1,0 +1,18 @@
+# Ignore Maven/Gradle build folders (the biggest culprits)
+target/
+build/
+bin/
+
+# Ignore Browser Drivers
+*.exe
+chromedriver
+geckodriver
+
+# Ignore IDE settings
+.idea/
+.settings/
+.project
+.classpath
+
+# Ignore Test Reports
+test-output/

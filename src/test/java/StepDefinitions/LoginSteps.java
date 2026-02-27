@@ -10,11 +10,9 @@ import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-
 import DataSetup.ExcelReader;
 import DataSetup.LoggerClass;
 import POM_Pages.IxigoHomePage;
-//import DataSetup.ExcelReader;
 import POM_Pages.LoginPage;
 import TestSetup.CustomPDFStripper;
 import TestSetup.Hooks;
@@ -76,8 +74,8 @@ public class LoginSteps
 	@When("user clicks on BookBtn")
 	public void user_clicks_on_book_btn() throws InterruptedException {
 		login.click_on_bookBtn();    
-		login.click_on_continueBtn();
-		login.selectFreeCancellation();
+		//login.click_on_continueBtn();
+		//login.selectFreeCancellation();
 	}
 	
 

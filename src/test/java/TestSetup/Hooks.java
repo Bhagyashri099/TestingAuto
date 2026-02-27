@@ -20,7 +20,7 @@ public class Hooks
 	public static WebDriver driver;
 	ConfigReader Authconfig = new ConfigReader();
 
-	@Before
+	@Before("not @skip_setup1")
 	public void setUp() throws MalformedURLException {
 		String env = Authconfig.getExecutionEnv().trim();
 		String hubUrl = Authconfig.getRemoteUrl();

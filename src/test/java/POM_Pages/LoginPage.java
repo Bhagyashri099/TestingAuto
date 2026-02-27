@@ -54,7 +54,7 @@ public class LoginPage
 
 
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(LoginBtn)));
-		driver.findElement(LoginBtn).click();
+		//driver.findElement(LoginBtn).click();
 
 	}
 	public void enter_username_mob_no() throws IOException, InterruptedException
@@ -62,22 +62,22 @@ public class LoginPage
 		List<Map<String, String>> cols = ExcelReader.readSheet("TestData/TestData.xlsx", "Sheet1");
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-		wait.until(ExpectedConditions.visibilityOfElementLocated(MobNo));
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(MobNo)));
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(MobNo));
+		//wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(MobNo)));
 		for (Map<String, String> col : cols) {
 			String mob_no = col.get("mob_no");
 			//WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 			System.out.println(mob_no);
-			driver.findElement(MobNo).sendKeys(mob_no);
+			//driver.findElement(MobNo).sendKeys(mob_no);
 		}
 	}
 
 	public void click_continue_for_login() throws InterruptedException
 	{
-		wait.until(ExpectedConditions.elementToBeClickable(ContinueBtn));
-		driver.findElement(ContinueBtn).click();
+		//wait.until(ExpectedConditions.elementToBeClickable(ContinueBtn));
+		//driver.findElement(ContinueBtn).click();
 		
-		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'fixed top-0')]")));
+		//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, 'fixed top-0')]")));
 	}
 
 

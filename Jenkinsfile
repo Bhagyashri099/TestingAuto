@@ -28,7 +28,7 @@ pipeline {
       steps {
         script {
           // Publish JUnit so Jenkins creates TestResultAction
-          junit testResults: 'target/**/*.xml', allowEmptyResults: false, keepLongStdio: true
+          junit testResults: 'target/cucumber/*.xml', allowEmptyResults: false, keepLongStdio: true
 
           def action = currentBuild.rawBuild.getAction(hudson.tasks.junit.TestResultAction)
           def total  = action?.totalCount ?: 0

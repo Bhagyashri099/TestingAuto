@@ -21,35 +21,33 @@ public class Hooks
 	ConfigReader Authconfig = new ConfigReader();
 
 	@Before("not @skip_setup1")
-	public void setUp() throws MalformedURLException {
-		String env = Authconfig.getExecutionEnv().trim();
-		String hubUrl = Authconfig.getRemoteUrl();
-		String browser = Authconfig.getBrowser();
+	public void setUp(Scenario scenario) throws MalformedURLException {
+	    boolean headless = scenario.getSourceTagNames().contains("@headless");
+	    String env = Authconfig.getExecutionEnv().trim();
+	    
+	    // 1. Always create the options object first
+	    ChromeOptions options = new ChromeOptions();
 
-		if (env.equalsIgnoreCase("remote")) {
-			ChromeOptions options = new ChromeOptions();
-			options.setCapability("browserName", browser);
+	    // 2. Add headless argument to that object if tag is present
+	    if (headless) {
+	        options.addArguments("--headless=new"); // Use 'new' for modern Chrome versions
+	        options.addArguments("--window-size=1920,1080"); // Recommended for headless
+	    }
 
-			driver = new RemoteWebDriver(new URL(hubUrl), options);
+	    if (env.equalsIgnoreCase("remote")) {
+	        options.setCapability("browserName", Authconfig.getBrowser());
+	        driver = new RemoteWebDriver(new URL(Authconfig.getRemoteUrl()), options);
+	    } else {
+	        // 3. Pass the 'options' object here!
+	        driver = new ChromeDriver(options); 
+	    }
+
+	    driver.manage().window().maximize();
+	    driver.get(Authconfig.getUrl());
+	}
 
 
-			// This line executes the script on the remote hub
-			//driver = new RemoteWebDriver(new URL(hubUrl), caps);
-		} 
-		else 
-
-		{
-			// This block executes for local testing
-			driver = new ChromeDriver(); 
-			//System.out.println("local");
-
-		}
-
-			        driver.manage().window().maximize();
-			        driver.get(Authconfig.getUrl());
-	}   
-
-	@After
+	@After("not @skip_setup1")
 	public void tearDown(Scenario scenario) {
 	    if (scenario.isFailed()) {
 	        // This attaches the screenshot directly to your Extent Report
@@ -57,7 +55,7 @@ public class Hooks
 	        scenario.attach(screenshot, "image/png", "Failed_Screenshot");
 	    }
 	}
-	@After
+	@After ("not @skip_setup1")
 	public void tearDown() {
 		if (driver != null) {
 			driver.quit();

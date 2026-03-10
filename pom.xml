@@ -10,7 +10,7 @@
 <dependency>
     <groupId>io.cucumber</groupId>
     <artifactId>cucumber-java</artifactId>
-    <version>7.33.0</version>
+    <version>7.11.0</version>
     <scope>test</scope>
 </dependency>
 
@@ -18,7 +18,7 @@
 <dependency>
     <groupId>io.cucumber</groupId>
     <artifactId>cucumber-testng</artifactId>
-    <version>7.33.0</version>
+    <version>7.11.0</version>
     <scope>test</scope>
 </dependency>
 
@@ -49,7 +49,6 @@
     <artifactId>poi</artifactId>
     <version>5.5.1</version>
 </dependency>
-
 <!-- Source: https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
 <dependency>
     <groupId>org.apache.poi</groupId>
@@ -86,11 +85,11 @@
 </dependency>
    
     <!-- Log4j API -->
-    <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-api</artifactId>
-        <version>2.20.0</version>
-    </dependency>
+   <dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>2.20.0</version>
+</dependency>
 
 
     <!-- SLF4J Bridge (Required to stop PDFBox internal errors) -->
@@ -106,8 +105,18 @@
 <dependency>
     <groupId>io.rest-assured</groupId>
     <artifactId>rest-assured</artifactId>
-    <version>6.0.0</version>
+    <version>5.4.0</version>
     <scope>test</scope>
+     <exclusions>
+        <exclusion>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-osgi</artifactId>
+        </exclusion>
+    </exclusions>
 </dependency>
 <!-- Source: https://mvnrepository.com/artifact/io.rest-assured/json-path -->
 <dependency>
@@ -156,14 +165,42 @@
     <version>3.0</version>
     <scope>test</scope>
 </dependency>
-   
-  </dependencies>
-  
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- ADD THIS LINE. We'll use a recent, stable version of Cucumber. -->
-        <cucumber.version>7.15.0</cucumber.version>
-    </properties>
+   <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>jakarta.mail</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+     <dependency>
+        <groupId>jakarta.mail</groupId>
+        <artifactId>jakarta.mail-api</artifactId>
+        <version>2.1.3</version>
+    </dependency>
+
+    <!-- 2. The Angus Mail Implementation (Required to actually send SMTP) -->
+    <dependency>
+        <groupId>org.eclipse.angus</groupId>
+        <artifactId>angus-mail</artifactId>
+        <version>2.0.3</version>
+    </dependency>
+
+    <!-- 3. The Activation Implementation (Fixes the NoClassDefFoundError) -->
+    <dependency>
+        <groupId>org.eclipse.angus</groupId>
+        <artifactId>angus-activation</artifactId>
+        <version>2.0.2</version>
+    </dependency>
     
+    
+    <!-- Source: https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+<dependency>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>3.5.5</version>
+    <scope>compile</scope>
+</dependency>
+
+</dependencies>
+
+  
 
 </project>

@@ -18,12 +18,13 @@ import static io.restassured.RestAssured.given;
 import io.restassured.response.Response;
 
 public class PostRequest {
-    private String path = System.getProperty("user.dir") + "/src/test/resources/TestData.xlsx";
+    private String path = System.getProperty("user.dir") + "/src/test/resources/FeatureFiles/TestData.xlsx";
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
     private FileInputStream fis;
 
-     public Map<String, String> getDataByRow(int rowNum) throws IOException {
+    
+    public Map<String, String> getDataByRow(int rowNum) throws IOException {
         if (workbook == null) {
             fis = new FileInputStream(path);
             workbook = new XSSFWorkbook(fis);
@@ -34,9 +35,10 @@ public class PostRequest {
         XSSFRow row = sheet.getRow(rowNum);
         
         if (row != null) {
-            // Col 0 = name, Col 1 = lastname 
+            // Assuming Col 0 = name, Col 1 = job (adjust if your Excel is different)
             data.put("name", row.getCell(0).getStringCellValue());
-            data.put("lastname", row.getCell(1).getStringCellValue());
+            data.put("job", row.getCell(1).getStringCellValue());
+           // data.put("email", emailPrefix + "_" + System.currentTimeMillis() + "@example.com");
             
         }
         return data;
@@ -50,43 +52,48 @@ public class PostRequest {
             sheet = workbook.getSheetAt(0);
         }
         int totalRows = sheet.getLastRowNum();
-        Object[][] data = new Object[totalRows][3];
+        Object[][] data = new Object[totalRows][5];
         for (int i = 1; i <= totalRows; i++) {
             data[i-1][0] = sheet.getRow(i).getCell(0).getStringCellValue();
             data[i-1][1] = sheet.getRow(i).getCell(1).getStringCellValue();
-           
+                       
             data[i-1][2] = i; 
             
 
         }
         return data;
     }
-    public void writeSpecificRow(int rowNum, String id, int status) throws IOException {
-        String finalId = (id == null) ? "N/A" : id;
-        
 
-        XSSFRow row = sheet.getRow(rowNum);
-        if (row == null) {
-            row = sheet.createRow(rowNum);
-        }
-        
-       
-        XSSFCell cell2 = row.getCell(2);
-        if (cell2 == null) cell2 = row.createCell(2);
-        cell2.setCellValue(finalId);
-        
-        XSSFCell cell3 = row.getCell(3);
-        if (cell3 == null) cell3 = row.createCell(3);
-        cell3.setCellValue(status);
+    public void writeSpecificRow(int rowNum, String id, int status, String fullResponse) throws IOException {
+        // loadWorkbook(); // Ensure workbook is loaded
+         
+         XSSFRow row = sheet.getRow(rowNum);
+         if (row == null) row = sheet.createRow(rowNum);
+         
+         // Existing columns logic
+         row.createCell(2).setCellValue(id == null ? "N/A" : id);
+         row.createCell(3).setCellValue(status);
+         
+         // NEW: Store complete response in Column 4 (Index 4)
+         if (fullResponse != null) {
+             XSSFCell cell4 = row.createCell(4);
+             
+             // Excel limit is 32,767 characters per cell
+             if (fullResponse.length() > 32760) {
+                 fullResponse = fullResponse.substring(0, 32760) + "...[TRUNCATED]";
+             }
+             cell4.setCellValue(fullResponse);
+             
+             // Optional: Make it readable with Wrap Text
+             XSSFCellStyle style = workbook.createCellStyle();
+             style.setWrapText(true);
+             cell4.setCellStyle(style);
+         }
 
-        // 2. Write and CLOSE both the stream and the workbook
-        try (FileOutputStream fos = new FileOutputStream(path)) {
-            workbook.write(fos);
-            // Closing the workbook here is critical if this is the end of your operation
-            workbook.close(); 
-        }
-    }
-
-    
-    
+         // Atomic Write to avoid file corruption
+         try (FileOutputStream fos = new FileOutputStream(path)) {
+             workbook.write(fos);
+             fos.flush();
+         }
+     }
 }

@@ -45,6 +45,11 @@ public class ConfigReader {
         return properties.getProperty("remote_url");
     }
 
+	public boolean getHeadless() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 //	    public String getBrowser() {
 //	        

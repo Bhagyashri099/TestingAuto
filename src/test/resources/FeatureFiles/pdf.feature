@@ -1,5 +1,5 @@
 Feature: PDF Detail Validation
- 
+ @headless
  Scenario: Validate text, font, and color of multi-page PDF
    
  Given user has the PDF file "sample.pdf"

@@ -33,7 +33,7 @@ import io.cucumber.java.en.Then;
 public class LoginSteps 
 {
 	LoginPage login;
-	WebDriver driver= Hooks.driver;
+	WebDriver driver;
 	PDDocument document;
 	 PostRequest apiLogic = new PostRequest(); 
 	    Response response;
@@ -44,7 +44,7 @@ public class LoginSteps
 	@Given("user opens the url")
 	public void user_opens_the_url() throws InterruptedException 
 	{
-		//this.driver = Hooks.driver; 
+		this.driver = Hooks.driver; 
 		login=new LoginPage(driver);
 		
 
@@ -54,6 +54,9 @@ public class LoginSteps
 	public void navigateToIxigo() throws InterruptedException, IOException {
 		//	driver.get("https://www.ixigo.com/flights");
 		//		driver.manage().window().maximize();
+		if (this.driver == null) {
+	        this.driver = Hooks.driver;
+	    }
 		Thread.sleep(3000);
 		login=new LoginPage(driver);
 		login.click_login_signup_button();

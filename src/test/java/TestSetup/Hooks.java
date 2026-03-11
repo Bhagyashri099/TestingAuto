@@ -19,7 +19,7 @@ public class Hooks
 {
 	public static WebDriver driver;
 	ConfigReader Authconfig = new ConfigReader();
-
+ 
 	@Before("not @skip_setup1")
 	public void setUp(Scenario scenario) throws MalformedURLException {
 	    boolean headless = scenario.getSourceTagNames().contains("@headless");

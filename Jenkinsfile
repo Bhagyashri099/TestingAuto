@@ -21,9 +21,7 @@ junit 'target/cucumber-junit/*.xml'
 }
 }
 stage('Deliver') {
-steps {
-sh './CucumberSelenium/deliver.sh'
-}
+steps { bat 'jenkins\\scripts\\delivery.bat' }
 }
 }
 }

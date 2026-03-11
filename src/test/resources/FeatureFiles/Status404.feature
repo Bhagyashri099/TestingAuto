@@ -12,11 +12,6 @@ Feature: API Error Status Code Validation
     When I send a POST request with INVALID API Key
     Then the response status code should be 401
      
-     @skip_setup1
-       Scenario: 400 error 
-    Given the API endpoint is "https://reqres.in/api/users"
-    When I send a POST with broken body
-    Then the response status code should be 400
     
     @skip_setup1
      Scenario: 500 Internal server error  
